@@ -15,10 +15,16 @@ class CreateEventLocationAdressesTable extends Migration
     {
         Schema::create('adresses', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('country_id');    
+            $table->foreignId('e_locations_id');
             $table->string('street');
             $table->integer('number');
+            $table->string('city');
             $table->integer('zip');
-            $table->timestamps();
+            
+            $table->foreign('country_id')->on('countries')->references('id')->onDelete('restrict')->onUpdate('cascade');
+            
+            $table->foreign('e_locations_id')->on('e_locations')->references('id')->onDelete('restrict')->onUpdate('cascade');  
         });
     }
 

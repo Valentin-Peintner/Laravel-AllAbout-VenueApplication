@@ -16,7 +16,6 @@ class CreateEventLocationCountriesTable extends Migration
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
             $table->string('country');
-            $table->timestamps();
         });
     }
 
