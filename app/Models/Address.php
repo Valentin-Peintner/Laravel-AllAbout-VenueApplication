@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Adress extends Model
+class Address extends Model
 {
     use HasFactory;
 
@@ -15,16 +15,18 @@ class Adress extends Model
         'city',
         'zip',
         'country_id',
-        'e_locations_id',
+        'venue_id',
     ];
+
+    public $timestamps = false;
 
      /**
      * Relation to User Model
      * 
      * @return
      */
-    public function eventLocation(){
-        return $this->belongsTo(EventLocation::class,'e_locations_id','id');
+    public function venue(){
+        return $this->belongsTo(Venue::class,'venue_id','id');
     }
 
      /**

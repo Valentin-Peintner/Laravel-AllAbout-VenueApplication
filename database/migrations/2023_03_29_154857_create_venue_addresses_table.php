@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEventLocationAdressesTable extends Migration
+class CreateVenueAddressesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateEventLocationAdressesTable extends Migration
      */
     public function up()
     {
-        Schema::create('adresses', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('country_id');    
-            $table->foreignId('e_locations_id');
+            $table->foreignId('venue_id');
             $table->string('street');
             $table->integer('number');
             $table->string('city');
@@ -24,7 +24,7 @@ class CreateEventLocationAdressesTable extends Migration
             
             $table->foreign('country_id')->on('countries')->references('id')->onDelete('restrict')->onUpdate('cascade');
             
-            $table->foreign('e_locations_id')->on('e_locations')->references('id')->onDelete('restrict')->onUpdate('cascade');  
+            $table->foreign('venue_id')->on('venues')->references('id')->onDelete('restrict')->onUpdate('cascade');  
         });
     }
 
@@ -35,6 +35,6 @@ class CreateEventLocationAdressesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('adresses');
+        Schema::dropIfExists('addresses');
     }
 }

@@ -28,7 +28,7 @@
 
         @yield('content')
 
-        <footer class="container">
+        <footer class="container mt-5">
             <p>&copy; Q2E Online-Agentur 2021</p>
         </footer>
     </body>

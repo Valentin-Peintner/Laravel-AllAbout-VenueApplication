@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\VenueController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +15,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('venue.index');
 });
 
 Route::get('/readme', function () {
     return view('readme');
 });
+
+Route::get('/venue', [VenueController::class, 'index'])->name('venue.index');
+Route::get('/venue/create', [VenueController::class, 'create'])->name('venue.create');
+Route::post('/venue', [VenueController::class, 'store'])->name('venue.store');
+Route::get('/venue/{venue}', [VenueController::class, 'show']);
+Route::get('/venue/{venue}/edit', [VenueController::class, 'edit']);
+Route::put('/venue/{venue}', [VenueController::class, 'update']);
+Route::delete('/venue/{venue}', [VenueController::class, 'destroy']);

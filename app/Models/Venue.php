@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EventLocation extends Model
+class Venue extends Model
 {
     use HasFactory;
 
@@ -23,8 +23,8 @@ class EventLocation extends Model
       *
       * @return object
       */
-      public function adresses(){
-        return $this->hasMany(Adress::class, 'e_locations_id','id');
+      public function addresses(){
+        return $this->hasMany(Address::class, 'venue_id','id');
     }
 
 }

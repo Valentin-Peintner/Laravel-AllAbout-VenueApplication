@@ -10,14 +10,14 @@ class Country extends Model
     use HasFactory;
 
     protected $fillable = ['country'];
-
+    public $timestamps = false;
 
     /**
      * Relation to Adress model
      * 
      * @return
      */
-    public function adresses(){
-        return $this->hasMany(Adress::class,'country_id','id');
+    public function addresses(){
+        return $this->hasMany(Address::class,'country_id','id');
     }
 }
