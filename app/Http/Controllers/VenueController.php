@@ -192,4 +192,15 @@ class VenueController extends Controller
 
         return redirect()->route('venue.index')->with('success', 'Veranstaltungsort '.$venue->name.' wurde gelöscht!');
     }
+
+
+    // Google Maps, richtig??
+    public function showMap($id)
+    {
+        $venue = Venue::findOrFail($id);
+        $address = $venue->address;
+        $fullAddress = $address->street . ', ' . $address->postal_code . ' ' . $address->city . ', ' . $address->country->country;
+        var_dump($fullAddress);
+        return view('venue.show', compact('fullAddress'));
+    }
 }

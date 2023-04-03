@@ -55,6 +55,8 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                            
+                                </div>
                             </form>
                         </td>
                     </tr>
@@ -65,4 +67,6 @@
     {{-- Pagination --}}
     {{ $venues->links('pagination::bootstrap-4') }}
 </div>
+
+{{-- Modal Box --}}
 @endsection

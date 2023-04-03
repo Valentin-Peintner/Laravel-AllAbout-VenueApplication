@@ -19,16 +19,17 @@
                     </ul>
                     <h2 class="card-title mt-4">Details</h2>
                     <ul class="list-group">
-                        <li class="list-group-item">Telefon: {{$venue->country_code}} {{ $venue->phone_number }}</li>
+                         <li class="list-group-item">Telefon: {{$venue->country_code}} {{ $venue->phone_number }}</li>
                         <li class="list-group-item">Email: {{ $venue->email }}</li>
                         <li class="list-group-item">Webseite: {{ $venue->website_url }}</li>
                         <li class="list-group-item">Besitzer: {{ $venue->owner }}</li>
                         <li class="list-group-item">Buchbar für Veranstaltungen: {{ $venue->bookable == 1 ? 'Ja' : 'Nein' }}</li>
                     </ul>
                 </div>
+                {{-- Maps einbinden --}}
+                {{-- <div id="map" style="width: 100%; height:300px;" onload="initMap()"></div> --}}
             </div>
         </div>
     </div>
 </div>
-
 @endsection
