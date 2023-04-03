@@ -19,7 +19,7 @@
     </head>
     <body>
         <nav class="navbar navbar-light bg-light">
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href="{{ route('venue.index') }}">
             <img src="https://data.q2e.at/cdn/images/logo-with-slogan-375x115.png"
                  alt="Logo von Q2E Online-Agentur"
                  height="36"/>

@@ -68,7 +68,7 @@
                     <input type="text" name="owner" id="owner" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="bookable">Buchbar</label>
+                    <label for="bookable">Buchbar für Veranstaltungen</label>
                     <select name="bookable" id="bookable" class="form-control">
                         <option value="0">Nein</option>
                         <option value="1">Ja</option>

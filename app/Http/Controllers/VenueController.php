@@ -56,6 +56,14 @@ class VenueController extends Controller
             'bookable' => 'required|boolean'
         ]);
 
+        // Check if Venue Name already exists
+        $existingVenue = Venue::where('name', $request->input('name'))->first();
+
+        if ($existingVenue) {
+            return redirect()->back()->withErrors(['name' => 'Dieser Veranstaltungsortname ist bereits vergeben.'])->withInput();
+        }
+
+        // If not create Venue
         // Get Country ID
         $country = Country::find($request->country_id);
     
@@ -93,7 +101,8 @@ class VenueController extends Controller
      */
     public function show($id)
     {
-        //
+        $venue = Venue::with(['addresses.country'])->find($id);
+        return view('venue.show', compact('venue'));
     }
 
     /**
@@ -104,7 +113,9 @@ class VenueController extends Controller
      */
     public function edit($id)
     {
-        //
+        $venue = Venue::with(['addresses.country'])->find($id);
+        $countries = Country::all();
+        return view('venue.edit', compact('venue','countries'));
     }
 
     /**
@@ -116,7 +127,47 @@ class VenueController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Input Validation
+        $request->validate([
+            'name' => 'required|max:50',
+            'street' => 'required|max:100',
+            'number' => 'required|numeric',
+            'city' => 'required|max:255',
+            'zip' => 'required|numeric',
+            'country_id' => 'exists:countries,id',
+            'venue_id' => 'exists:venues,id',
+            'phone_number' => 'required|numeric',
+            'email' => 'required|email|max:255',
+            'website_url' => 'required|url|max:255',
+            'owner' => 'required|max:255',
+            'bookable' => 'required|boolean'
+        ]);
+
+        // Get Country ID
+        $country = Country::find($request->country_id);
+    
+        // Create new Venue
+        $venue = Venue::find($id);
+        $venue->name = $request->name;
+        $venue->phone_number = $request->phone_number;
+        $venue->email = $request->email;
+        $venue->website_url = $request->website_url;
+        $venue->owner = $request->owner;
+        $venue->bookable = $request->bookable;
+        $venue->save();
+
+        // Create new Address
+        $address = $venue->addresses->first();
+        $address->country_id = $country->id;
+        $address->venue_id = $venue->id;
+        $address->street = $request->street;
+        $address->number = $request->number;
+        $address->city = $request->city;
+        $address->zip = $request->zip;   
+        $address->save();
+
+        // Redirect to Index-Page
+        return redirect()->route('venue.index')->with('success', 'Veranstaltungsort '.$request->name.' wurde aktualisert!');
     }
 
     /**
@@ -127,6 +178,14 @@ class VenueController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $venue = Venue::findorFail($id);
+
+        // Lösche die Adressen, die mit der Venue-ID verknüpft sind
+        $venue->addresses()->where('venue_id', $id)->delete();
+        
+        // Lösche die Venue
+        $venue->delete();
+
+        return redirect()->route('venue.index')->with('success', 'Veranstaltungsort '.$venue->name.' wurde gelöscht!');
     }
 }
