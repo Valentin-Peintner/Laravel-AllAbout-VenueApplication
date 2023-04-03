@@ -44,16 +44,17 @@
 
                         <td class="d-flex justify-content-center">
                             <button class="btn btn-primary mr-2">
-                                <a style="text-decoration: none; color: white" href="{{ route('venue.show',$venue->id) }}">Details</a>
+                                <a style="text-decoration: none; color: white" href="{{ route('venue.show',$venue->id) }}"><i class="fa fa-eye"></i></a>
                             </button>
                             <button class="btn btn-success mr-2">
-                                <a style="text-decoration: none; color: white" href="{{ route('venue.edit',$venue->id) }}">Bearbeiten</a>
+                                <a style="text-decoration: none; color: white" href="{{ route('venue.edit',$venue->id) }}"><i class="fa fa-pencil"></i>
+                                </a>
                             </button>
                         
                             <form action="/venue/{{ $venue->id }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger" type="submit">Löschen</button>
+                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                             </form>
                         </td>
                     </tr>
@@ -61,5 +62,7 @@
             @endif
         </tbody>
     </table>
+    {{-- Pagination --}}
+    {{ $venues->links('pagination::bootstrap-4') }}
 </div>
 @endsection

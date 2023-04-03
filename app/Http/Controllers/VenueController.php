@@ -16,9 +16,9 @@ class VenueController extends Controller
      */
     public function index()
     {
-        $venues = Venue::with(['addresses.country'])->get();
+        $venues = Venue::with(['addresses.country'])->orderBy('name')->paginate(5);
         // dd($venues);
-        return view('venue.index', compact('venues'));
+        return view('venue.index', compact('venues'))->with(request()->input('page'));
     }
 
     /**
@@ -49,7 +49,8 @@ class VenueController extends Controller
             'zip' => 'required|numeric',
             'country_id' => 'exists:countries,id',
             'venue_id' => 'exists:venues,id',
-            'phone_number' => 'required|numeric',
+            'country_code' => 'required',
+            'phone_number' => 'required|numeric|min:11',
             'email' => 'required|email|max:255',
             'website_url' => 'required|url|max:255',
             'owner' => 'required|max:255',
@@ -70,6 +71,7 @@ class VenueController extends Controller
         // Create new Venue
         $venue = new Venue;
         $venue->name = $request->name;
+        $venue->country_code = $request->country_code;
         $venue->phone_number = $request->phone_number;
         $venue->email = $request->email;
         $venue->website_url = $request->website_url;
@@ -136,7 +138,8 @@ class VenueController extends Controller
             'zip' => 'required|numeric',
             'country_id' => 'exists:countries,id',
             'venue_id' => 'exists:venues,id',
-            'phone_number' => 'required|numeric',
+            'country_code' => 'required',
+            'phone_number' => 'required|numeric|min:11',
             'email' => 'required|email|max:255',
             'website_url' => 'required|url|max:255',
             'owner' => 'required|max:255',
@@ -149,6 +152,7 @@ class VenueController extends Controller
         // Create new Venue
         $venue = Venue::find($id);
         $venue->name = $request->name;
+        $venue->country_code = $request->country_code;
         $venue->phone_number = $request->phone_number;
         $venue->email = $request->email;
         $venue->website_url = $request->website_url;

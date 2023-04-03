@@ -2,9 +2,11 @@
 
 @section('content')
 
-<div class="container-fluid mt-5 px-4">
-    <h1>Veranstaltungsort anlegen</h1>
-    <div class="button"><a href="{{route('venue.index') }}" class="btn btn-outline-secondary mt-2 mb-2">Alle Veranstaltungsorte</a></div>
+    <div class="container-fluid mt-5 mb-5 px-5">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Veranstaltungsort anlegen</h2>
+            <a class="btn btn-secondary mb-2 mt-2" href="{{route('venue.index') }}">Alle Veranstaltungsorte</a>
+        </div>
 
     @if($errors->any())
         <div class="alert alert-danger">
@@ -17,7 +19,7 @@
         </div>
     @endif
 
-    <form action="{{ route('venue.store') }}" method="POST">
+    <form action="{{ route('venue.store') }}" method="POST" class="mt-5">
         @csrf
         <div class="row">
             <div class="col-md-6">
@@ -53,6 +55,14 @@
                 </div>
                 <div class="form-group">
                     <label for="phone_number">Telefon</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <select class="form-control" name="country_code">
+                                <option value="+43">+43</option>
+                                <option value="+49">+49</option>
+                                <option value="+49">+41</option>
+                            </select>
+                        </div>
                     <input type="text" name="phone_number" id="phone_number" class="form-control">
                 </div>
                 <div class="form-group">
