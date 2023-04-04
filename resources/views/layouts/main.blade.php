@@ -30,12 +30,9 @@
 
         @yield('content')
 
-        <footer class="container fixed-bottom">
+        <footer class="container mt-2">
             <p>&copy; Q2E Online-Agentur 2021</p>
         </footer>
     </body>
     <script src="{{ asset('js/app.js') }}"></script>
-    {{-- Richtig? --}}
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
-    <script src="{{ asset('js/script.js') }}"></script>
 </html>

@@ -29,6 +29,5 @@ Route::get('/venue/{venue}', [VenueController::class, 'show'])->name('venue.show
 Route::get('/venue/{venue}/edit', [VenueController::class, 'edit'])->name('venue.edit');
 Route::put('/venue/{venue}', [VenueController::class, 'update'])->name('venue.update');
 Route::delete('/venue/{venue}', [VenueController::class, 'destroy']);
-
-// Google Maps
-Route::get('/venue/{id}/map', [VenueController::class, 'showMap'])->name('venue.showMap');
+// 
+Route::get('/api/venues', [VenueController::class, 'apiIndex']);

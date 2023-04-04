@@ -27,9 +27,29 @@
                     </ul>
                 </div>
                 {{-- Maps einbinden --}}
-                {{-- <div id="map" style="width: 100%; height:300px;" onload="initMap()"></div> --}}
+                <div id="map" style="height:300px;"></div>
             </div>
         </div>
     </div>
 </div>
+
+{{-- Show Map --}}
+<script>
+    function initMap() {
+    // create map object
+    var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: {{ $address->latitude }}, lng: {{ $address->longitude }}},
+        zoom: 12
+    });
+
+    // create marker object
+    var marker = new google.maps.Marker({
+        position: {lat: {{ $address->latitude }}, lng: {{ $address->longitude }}},
+        map: map,
+        title: 'Your Event Location'
+    });
+    }
+  </script>
+  
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3cB7r9fDyaX40V8Kbp8XELqSlwwd6fD4&callback=initMap"></script>
 @endsection

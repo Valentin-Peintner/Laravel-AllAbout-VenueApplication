@@ -21,6 +21,8 @@ class CreateVenueAddressesTable extends Migration
             $table->integer('number');
             $table->string('city');
             $table->integer('zip');
+            $table->string('latitude');
+            $table->string('longitude');
             
             $table->foreign('country_id')->on('countries')->references('id')->onDelete('restrict')->onUpdate('cascade');
             
