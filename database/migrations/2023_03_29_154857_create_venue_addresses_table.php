@@ -18,7 +18,7 @@ class CreateVenueAddressesTable extends Migration
             $table->foreignId('country_id');    
             $table->foreignId('venue_id');
             $table->string('street');
-            $table->integer('number');
+            $table->string('number');
             $table->string('city');
             $table->integer('zip');
             $table->string('latitude');

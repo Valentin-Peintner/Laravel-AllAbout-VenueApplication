@@ -43,17 +43,17 @@ class VenueController extends Controller
         // Input Validation
         $request->validate([
             'name' => 'required|max:50',
-            'street' => 'required|max:100',
-            'number' => 'required|numeric',
-            'city' => 'required|max:255',
+            'street' => 'required|string|regex:/^[a-zA-Zß -]+$/|max:50',
+            'number' => 'required|regex:/^[\w\d-]+$/',
+            'city' => 'required|max:50|alpha',
             'zip' => 'required|numeric',
             'country_id' => 'exists:countries,id',
             'venue_id' => 'exists:venues,id',
             'country_code' => 'required',
-            'phone_number' => 'required|numeric|min:11',
-            'email' => 'required|email|max:255',
-            'website_url' => 'required|url|max:255',
-            'owner' => 'required|max:255',
+            'phone_number' => 'required|numeric|digits_between:9,10',
+            'email' => 'required|email|max:50',
+            'website_url' => 'required|url|max:50',
+            'owner' => 'required|regex:/^[a-zA-Z -]+$/|max:50',
             'bookable' => 'required|boolean'
         ]);
 
@@ -160,17 +160,17 @@ class VenueController extends Controller
         // Input Validation
         $request->validate([
             'name' => 'required|max:50',
-            'street' => 'required|max:100',
-            'number' => 'required|numeric',
-            'city' => 'required|max:255',
+            'street' => 'required|string|regex:/^[a-zA-Zß -]+$/|max:50',
+            'number' => 'required|regex:/^[\w\d-]+$/',
+            'city' => 'required|max:50|alpha',
             'zip' => 'required|numeric',
             'country_id' => 'exists:countries,id',
             'venue_id' => 'exists:venues,id',
             'country_code' => 'required',
-            'phone_number' => 'required|numeric|min:11',
-            'email' => 'required|email|max:255',
-            'website_url' => 'required|url|max:255',
-            'owner' => 'required|max:255',
+            'phone_number' => 'required|numeric|digits_between:9,10',
+            'email' => 'required|email|max:50',
+            'website_url' => 'required|url|max:50',
+            'owner' => 'required|regex:/^[a-zA-Z -]+$/|max:50',
             'bookable' => 'required|boolean'
         ]);
 

@@ -9,7 +9,7 @@
         <a class="btn btn-secondary mb-2 mt-2" href="{{route('venue.index') }}">Alle Veranstaltungsorte</a>
     </div>
 
-    @if($errors->any())
+    {{-- @if($errors->any())
         <div class="alert alert-danger">
             <strong>Whoops!</strong> Ihre Angaben sind nicht korrekt!<br><br>
             <ul>
@@ -18,7 +18,7 @@
                 @endforeach
             </ul>
         </div>
-    @endif
+    @endif --}}
 
     <form action="{{ route('venue.update',$venue->id)}} " method="POST" class="mt-5">
         @csrf
@@ -27,27 +27,62 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" name="name" id="name" class="form-control" value="{{ old('name',$venue->name) }}">
+                    <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name',$venue->name) }}">
+
+                    @error('name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
+
                 @foreach($venue->addresses as $address)
                 <div class="form-group">
                     <label for="street">Straße</label>
-                    <input type="text" name="street" id="street" class="form-control" value="{{ old('name',$address->street) }}">
+                    <input type="text" name="street" id="street" class="form-control @error('street') is-invalid @enderror" value="{{ old('street',$address->street) }}">
+
+                    @error('street')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
+
                 <div class="form-group">
                     <label for="number">Hausnummer</label>
-                    <input type="text" name="number" id="number" class="form-control" value="{{ old('name',$address->number) }}">
+                    <input type="text" name="number" id="number" class="form-control @error('number') is-invalid @enderror" value="{{ old('number',$address->number) }}">
+
+                    @error('number')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="city">Stadt</label>
-                    <input type="text" name="city" id="city" class="form-control" value="{{ old('name',$address->city) }}">
+                    <input type="text" name="city" id="city" class="form-control @error('city') is-invalid @enderror" value="{{ old('city',$address->city) }}">
+
+                    @error('city')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
+
                 <div class="form-group">
                     <label for="zip">Postleitzahl</label>
-                    <input type="text" name="zip" id="zip" class="form-control" value="{{ old('name',$address->zip) }}">
+                    <input type="text" name="zip" id="zip" class="form-control @error('zip') is-invalid @enderror" value="{{ old('zip',$address->zip) }}">
+
+                    @error('zip')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
+
                 @endforeach
             </div>
+
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="country_id">Land</label>
@@ -68,20 +103,48 @@
                                 <option value="+41" {{ $venue->country_code == '+41' ? 'selected' : '' }}>+41</option>
                             </select>
                         </div>
-                    <input type="text" name="phone_number" id="phone_number" class="form-control" value="{{ old('name',$venue->phone_number) }}">
+                    <input type="text" name="phone_number" id="phone_number" class="form-control @error('phone_number') is-invalid @enderror" value="{{ old('phone_number',$venue->phone_number) }}">
+
+                    @error('phone_number')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
+
                 <div class="form-group">
                     <label for="email">E-Mail</label>
-                    <input type="email" name="email" id="email" class="form-control" value="{{ old('name',$venue->email) }}">
+                    <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email',$venue->email) }}">
+
+                    @error('email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
+
                 <div class="form-group">
                     <label for="website_url">Webseite</label>
-                    <input type="url" name="website_url" id="website_url" class="form-control" value="{{ old('name',$venue->website_url) }}">
+                    <input type="url" name="website_url" id="website_url" class="form-control @error('website_url') is-invalid @enderror" value="{{ old('website_url',$venue->website_url) }}">
+
+                    @error('website_url')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
+
                 <div class="form-group">
                     <label for="owner">Besitzer</label>
-                    <input type="text" name="owner" id="owner" class="form-control" value="{{ old('name',$venue->owner) }}">
+                    <input type="text" name="owner" id="owner" class="form-control @error('owner') is-invalid @enderror" value="{{ old('owner',$venue->owner) }}">
+
+                    @error('owner')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
+
                 <div class="form-group">
                     <label for="bookable">Buchbar für Veranstaltungen</label>
                     <select name="bookable" id="bookable" class="form-control">

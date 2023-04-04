@@ -134,10 +134,64 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'name' => [
+            'required' => 'Bitte geben Sie einen Namen ein.',
+            'max' => 'Der Name darf maximal 50 Zeichen lang sein.',
+            'string' => 'Der Name darf nur Buchstaben enthalten.',
+        ],
+        'street' => [
+            'required' => 'Bitte geben Sie eine Straße ein.',
+            'max' => 'Die Straße darf maximal 50 Zeichen lang sein.',
+            'string' => 'Die Straße darf nur Buchstaben enthalten.',
+            'regex' => 'Die Straße darf nur Buchstaben, Leerzeichen und "-" enthalten.',
+        ],
+        'number' => [
+            'required' => 'Bitte geben Sie eine Hausnummer ein.',
+            'regex' => 'Die Hausnummer darf nur Buchstaben, Zahlen und "-" enthalten.',
+        ],
+        'city' => [
+            'required' => 'Bitte geben Sie eine Stadt ein.',
+            'max' => 'Die Stadt darf maximal 50 Zeichen lang sein.',
+            'alpha' => 'Die Stadt darf nur Buchstaben enthalten.',
+        ],
+        'zip' => [
+            'required' => 'Bitte geben Sie eine Postleitzahl ein.',
+            'numeric' => 'Die Postleitzahl darf nur aus Ziffern bestehen.',
+        ],
+        'country_id' => [
+            'exists' => 'Das ausgewählte Land ist ungültig.',
+        ],
+        'venue_id' => [
+            'exists' => 'Die ausgewählte Veranstaltungsstätte ist ungültig.',
+        ],
+        'country_code' => [
+            'required' => 'Bitte geben Sie einen Ländercode ein.',
+        ],
+        'phone_number' => [
+            'required' => 'Bitte geben Sie eine Telefonnummer ein.',
+            'numeric' => 'Die Telefonnummer darf nur aus Ziffern bestehen.',
+            'digits_between' => 'Die Telefonnummer muss zwischen 9 und 11 Ziffern haben.',
+        ],
+        'email' => [
+            'required' => 'Bitte geben Sie eine E-Mail-Adresse ein.',
+            'email' => 'Die E-Mail-Adresse ist ungültig.',
+            'max' => 'Die E-Mail-Adresse darf maximal 50 Zeichen lang sein.',
+        ],
+        'website_url' => [
+            'required' => 'Bitte geben Sie eine Website-URL ein.',
+            'url' => 'Die Website-URL ist ungültig.',
+            'max' => 'Die Website-URL darf maximal 50 Zeichen lang sein.',
+        ],
+        'owner' => [
+            'required' => 'Bitte geben Sie den Eigentümer ein.',
+            'max' => 'Der Eigentümer darf maximal 50 Zeichen lang sein.',
+            'regex' => 'Die Besitzer darf nur Buchstaben enthalten.',
+        ],
+        'bookable' => [
+            'required' => 'Bitte geben Sie an, ob die Veranstaltungsstätte buchbar ist.',
         ],
     ],
+    
 
     /*
     |--------------------------------------------------------------------------
