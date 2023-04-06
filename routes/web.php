@@ -14,20 +14,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/venue', function () {
-    return view('venue.index');
-});
+Route::redirect('/', '/venues');
 
 Route::get('/readme', function () {
     return view('readme');
 });
 
-Route::get('/venue', [VenueController::class, 'index'])->name('venue.index');
-Route::get('/venue/create', [VenueController::class, 'create'])->name('venue.create');
-Route::post('/venue', [VenueController::class, 'store'])->name('venue.store');
-Route::get('/venue/{venue}', [VenueController::class, 'show'])->name('venue.show');
-Route::get('/venue/{venue}/edit', [VenueController::class, 'edit'])->name('venue.edit');
-Route::put('/venue/{venue}', [VenueController::class, 'update'])->name('venue.update');
-Route::delete('/venue/{venue}', [VenueController::class, 'destroy']);
-// 
-Route::get('/api/venues', [VenueController::class, 'apiIndex']);
+Route::group(['prefix' => '/venues', 'as' => 'venues.'], function () {
+    Route::get('/', [VenueController::class, 'index'])->name('index');
+    Route::get('/create', [VenueController::class, 'create'])->name('create');
+    Route::post('/', [VenueController::class, 'store'])->name('store');
+    Route::get('/{venue}', [VenueController::class, 'show'])->name('show');
+    Route::get('/{venue}/edit', [VenueController::class, 'edit'])->name('edit');
+    Route::put('/{venue}', [VenueController::class, 'update'])->name('update');
+    Route::delete('/{venue}', [VenueController::class, 'destroy'])->name('destroy');
+});
+
+
+

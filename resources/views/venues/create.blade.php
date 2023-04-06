@@ -5,7 +5,7 @@
     <div class="container-fluid mt-5 mb-5 px-5">
         <div class="d-flex justify-content-between align-items-center">
             <h2>Veranstaltungsort anlegen</h2>
-            <a class="btn btn-secondary mb-2 mt-2" href="{{route('venue.index') }}">Alle Veranstaltungsorte</a>
+            <a class="btn btn-secondary mb-2 mt-2" href="{{route('venues.index') }}">Alle Veranstaltungsorte</a>
         </div>
 
     {{-- @if($errors->any())
@@ -19,7 +19,7 @@
         </div>
     @endif --}}
 
-    <form action="{{ route('venue.store') }}" method="POST" class="mt-5">
+    <form action="{{ route('venues.store') }}" method="POST" class="mt-5">
         @csrf
         <div class="row">
             <div class="col-md-6">
@@ -108,7 +108,7 @@
 
                 <div class="form-group">
                     <label for="email">E-Mail</label>
-                    <input type="string" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}">
+                    <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}">
 
                     @error('email')
                     <span class="invalid-feedback" role="alert">

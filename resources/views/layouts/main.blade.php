@@ -21,7 +21,7 @@
     </head>
     <body>
         <nav class="navbar navbar-light bg-light">
-          <a class="navbar-brand" href="{{ route('venue.index') }}">
+          <a class="navbar-brand" href="{{ route('venues.index') }}">
             <img src="https://data.q2e.at/cdn/images/logo-with-slogan-375x115.png"
                  alt="Logo von Q2E Online-Agentur"
                  height="36"/>
@@ -34,5 +34,6 @@
             <p>&copy; Q2E Online-Agentur 2021</p>
         </footer>
     </body>
+    
     <script src="{{ asset('js/app.js') }}"></script>
 </html>

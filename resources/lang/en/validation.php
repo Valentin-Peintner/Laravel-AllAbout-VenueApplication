@@ -153,6 +153,7 @@ return [
             'required' => 'Bitte geben Sie eine Stadt ein.',
             'max' => 'Die Stadt darf maximal 50 Zeichen lang sein.',
             'alpha' => 'Die Stadt darf nur Buchstaben enthalten.',
+            'regex' => 'Die Stadt darf nur Buchstaben, Leerzeichen  oder Punkte enthalten.',
         ],
         'zip' => [
             'required' => 'Bitte geben Sie eine Postleitzahl ein.',

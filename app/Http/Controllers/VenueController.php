@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Country;
 use App\Models\Venue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class VenueController extends Controller
 {
@@ -18,7 +19,7 @@ class VenueController extends Controller
     {
         $venues = Venue::with(['addresses.country'])->orderBy('name')->paginate(5);
     
-        return view('venue.index', compact('venues'))->with(request()->input('page'));
+        return view('venues.index', compact('venues'))->with(request()->input('page'));
     }
 
     /**
@@ -29,7 +30,7 @@ class VenueController extends Controller
     public function create()
     {
         $countries = Country::all();
-        return view('venue.create', compact('countries'));
+        return view('venues.create', compact('countries'));
     }
 
     /**
@@ -40,33 +41,49 @@ class VenueController extends Controller
      */
     public function store(Request $request)
     {
-        // Input Validation
+        // Input Validation 
+        // Mit Sprenger genauer besprechen
         $request->validate([
-            'name' => 'required|max:50',
+            'name' => 'required|max:50|unique:venues,name',
             'street' => 'required|string|regex:/^[a-zA-Zß -]+$/|max:50',
             'number' => 'required|regex:/^[\w\d-]+$/',
-            'city' => 'required|max:50|alpha',
+            'city' => 'required|max:50|regex:/^[a-zA-Zß -]+$/',
             'zip' => 'required|numeric',
-            'country_id' => 'exists:countries,id',
-            'venue_id' => 'exists:venues,id',
+            'country_id' => 'required|exists:countries,id',
             'country_code' => 'required',
             'phone_number' => 'required|numeric|digits_between:9,10',
             'email' => 'required|email|max:50',
             'website_url' => 'required|url|max:50',
-            'owner' => 'required|regex:/^[a-zA-Z -]+$/|max:50',
+            'owner' => 'required|string|regex:/^[a-zA-ZÄÖÜäöü .-]+$/|max:50',
             'bookable' => 'required|boolean'
         ]);
-
-        // Check if Venue Name already exists
-        $existingVenue = Venue::where('name', $request->input('name'))->first();
-
-        if ($existingVenue) {
-            return redirect()->back()->withErrors(['name' => 'Dieser Veranstaltungsortname ist bereits vergeben.'])->withInput();
-        }
 
         // If not create Venue
         // Get Country ID
         $country = Country::find($request->country_id);
+
+        // Geo Api Request
+        $addressData = [
+            'street' => $request->street,
+            'number' => $request->number,
+            'city' => $request->city,
+            'zip' => $request->zip,
+            'country' => $country->country
+        ];
+
+        $url = "https://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode(http_build_query($addressData)) . "&key=AIzaSyC3cB7r9fDyaX40V8Kbp8XELqSlwwd6fD4";
+     
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $json = json_decode($response);
+
+        if (! isset($json->results) || count($json->results) <= 0) {
+            return redirect()->back()->withErrors(['street' => 'Diesen Standort gibt es nicht.'])->withInput();
+        }
+
     
         // Create new Venue
         $venue = new Venue;
@@ -88,38 +105,13 @@ class VenueController extends Controller
         $address->city = $request->city;
         $address->zip = $request->zip;
         
-        // Geo Api Request
-        $addressData = [
-            'street' => $request->street,
-            'number' => $request->number,
-            'city' => $request->city,
-            'zip' => $request->zip,
-            'country' => $country->country
-        ];
-        
-        $url = "https://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode(http_build_query($addressData)) . "&key=AIzaSyC3cB7r9fDyaX40V8Kbp8XELqSlwwd6fD4";
-     
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        curl_close($ch);
-        $json = json_decode($response);
-        // dd($json);
-
-        // Check if Data exists
-        if (isset($json->results) && count($json->results) > 0) {
-            $latitude = $json->results[0]->geometry->location->lat;
-            $longitude = $json->results[0]->geometry->location->lng;
-
-            $address->latitude = $latitude;
-            $address->longitude = $longitude;
-        }
+        $address->latitude = $json->results[0]->geometry->location->lat;
+        $address->longitude = $json->results[0]->geometry->location->lng;
     
-        $venue->addresses()->save($address);
+        $address->save();
 
         // Redirect to Index-Page
-        return redirect()->route('venue.index')->with('success', 'Veranstaltungsort '.$request->name.' wurde angelegt!');
+        return redirect()->route('venues.index')->with('success', 'Veranstaltungsort '.$request->name.' wurde angelegt!');
     }
 
 
@@ -131,8 +123,8 @@ class VenueController extends Controller
      */
     public function show($id)
     {
-        $venue = Venue::with(['addresses.country'])->find($id);
-        return view('venue.show', compact('venue'));
+        $venue = Venue::with(['addresses.country'])->findOrFail($id);
+        return view('venues.show', compact('venue'));
     }
 
     /**
@@ -143,9 +135,9 @@ class VenueController extends Controller
      */
     public function edit($id)
     {
-        $venue = Venue::with(['addresses.country'])->find($id);
+        $venue = Venue::with(['addresses.country'])->findOrFail($id);
         $countries = Country::all();
-        return view('venue.edit', compact('venue','countries'));
+        return view('venues.edit', compact('venue','countries'));
     }
 
     /**
@@ -159,18 +151,17 @@ class VenueController extends Controller
     {
         // Input Validation
         $request->validate([
-            'name' => 'required|max:50',
+            'name' => 'required|max:50|unique:venues,name,' . $id,
             'street' => 'required|string|regex:/^[a-zA-Zß -]+$/|max:50',
             'number' => 'required|regex:/^[\w\d-]+$/',
-            'city' => 'required|max:50|alpha',
+            'city' => 'required|max:50|regex:/^[a-zA-Zß -]/',
             'zip' => 'required|numeric',
-            'country_id' => 'exists:countries,id',
-            'venue_id' => 'exists:venues,id',
+            'country_id' => 'required|exists:countries,id',
             'country_code' => 'required',
             'phone_number' => 'required|numeric|digits_between:9,10',
             'email' => 'required|email|max:50',
             'website_url' => 'required|url|max:50',
-            'owner' => 'required|regex:/^[a-zA-Z -]+$/|max:50',
+            'owner' => 'required|string|regex:/^[a-zA-ZÄÖÜäöü .-]+$/|max:50',
             'bookable' => 'required|boolean'
         ]);
 
@@ -178,7 +169,7 @@ class VenueController extends Controller
         $country = Country::find($request->country_id);
     
         // Create new Venue
-        $venue = Venue::find($id);
+        $venue = Venue::findOrFail($id);
         $venue->name = $request->name;
         $venue->country_code = $request->country_code;
         $venue->phone_number = $request->phone_number;
@@ -214,9 +205,7 @@ class VenueController extends Controller
         $response = curl_exec($ch);
         curl_close($ch);
         $json = json_decode($response);
-        // dd($json);
 
-        // Check if Data exists
         if (isset($json->results) && count($json->results) > 0) {
             $latitude = $json->results[0]->geometry->location->lat;
             $longitude = $json->results[0]->geometry->location->lng;
@@ -228,7 +217,7 @@ class VenueController extends Controller
         $address->save();
 
         // Redirect to Index-Page
-        return redirect()->route('venue.index')->with('success', 'Veranstaltungsort '.$request->name.' wurde aktualisert!');
+        return redirect()->route('venues.index')->with('success', 'Veranstaltungsort '.$request->name.' wurde aktualisert!');
     }
 
     /**
@@ -247,13 +236,6 @@ class VenueController extends Controller
         // Lösche die Venue
         $venue->delete();
 
-        return redirect()->route('venue.index')->with('success', 'Veranstaltungsort '.$venue->name.' wurde gelöscht!');
-    }
-
-    // API
-    public function apiIndex()
-    {
-        $venues = Venue::with(['addresses.country'])->orderBy('name')->get();
-        return response()->json($venues);
+        return redirect()->route('venues.index')->with('success', 'Veranstaltungsort '.$venue->name.' wurde gelöscht!');
     }
 }

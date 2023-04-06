@@ -18,6 +18,7 @@ class Venue extends Model
         'bookable',
     ];
 
+    
      /**
       * Relation to Adress model
       *

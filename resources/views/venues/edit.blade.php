@@ -6,7 +6,7 @@
 <div class="container-fluid mt-5 mb-5 px-5">
     <div class="d-flex justify-content-between align-items-center">
         <h2>Veranstaltungsort bearbeiten</h2>
-        <a class="btn btn-secondary mb-2 mt-2" href="{{route('venue.index') }}">Alle Veranstaltungsorte</a>
+        <a class="btn btn-secondary mb-2 mt-2" href="{{route('venues.index') }}">Alle Veranstaltungsorte</a>
     </div>
 
     {{-- @if($errors->any())
@@ -20,7 +20,7 @@
         </div>
     @endif --}}
 
-    <form action="{{ route('venue.update',$venue->id)}} " method="POST" class="mt-5">
+    <form action="{{ route('venues.update',$venue->id)}} " method="POST" class="mt-5">
         @csrf
         @method('PUT')
         <div class="row">

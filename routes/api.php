@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ApiVenueController;
+use App\Http\Controllers\VenueController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => '/venues', 'as' => 'venues.'], function () {
+    Route::get('/', [ApiVenueController::class, 'index'])->name('index');
+    Route::get('/{id}', [ApiVenueController::class, 'show'])->name('show');
 });
-
