@@ -33,21 +33,21 @@
     </div>
 </div>
 
-{{-- Show Map --}}
+{{-- Show Map | Javascript Code, soll ich einen eigene Datei dafür anlegen --}}
 <script>
     function initMap() {
-    // create map object
-    var map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: {{ $address->latitude }}, lng: {{ $address->longitude }}},
-        zoom: 12
-    });
+        // create map object
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: {{ $address->latitude }}, lng: {{ $address->longitude }}},
+            zoom: 12
+        });
 
-    // create marker object
-    var marker = new google.maps.Marker({
-        position: {lat: {{ $address->latitude }}, lng: {{ $address->longitude }}},
-        map: map,
-        title: 'Your Event Location'
-    });
+        // create marker object
+        var marker = new google.maps.Marker({
+            position: {lat: {{ $address->latitude }}, lng: {{ $address->longitude }}},
+            map: map,
+            title: 'Your Event Location'
+        });
     }
   </script>
   

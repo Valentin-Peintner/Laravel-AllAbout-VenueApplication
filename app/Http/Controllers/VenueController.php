@@ -17,7 +17,7 @@ class VenueController extends Controller
     public function index()
     {
         $venues = Venue::with(['addresses.country'])->orderBy('name')->paginate(5);
-        // dd($venues);
+    
         return view('venue.index', compact('venues'))->with(request()->input('page'));
     }
 
@@ -195,7 +195,36 @@ class VenueController extends Controller
         $address->street = $request->street;
         $address->number = $request->number;
         $address->city = $request->city;
-        $address->zip = $request->zip;   
+        $address->zip = $request->zip;  
+        
+        // Geo Api Request
+        $addressData = [
+            'street' => $request->street,
+            'number' => $request->number,
+            'city' => $request->city,
+            'zip' => $request->zip,
+            'country' => $country->country
+        ];
+
+        $url = "https://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode(http_build_query($addressData)) . "&key=AIzaSyC3cB7r9fDyaX40V8Kbp8XELqSlwwd6fD4";
+     
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $json = json_decode($response);
+        // dd($json);
+
+        // Check if Data exists
+        if (isset($json->results) && count($json->results) > 0) {
+            $latitude = $json->results[0]->geometry->location->lat;
+            $longitude = $json->results[0]->geometry->location->lng;
+
+            $address->latitude = $latitude;
+            $address->longitude = $longitude;
+        }
+
         $address->save();
 
         // Redirect to Index-Page
@@ -224,7 +253,7 @@ class VenueController extends Controller
     // API
     public function apiIndex()
     {
-    $venues = Venue::with(['addresses.country'])->orderBy('name')->get();
-    return response()->json($venues);
+        $venues = Venue::with(['addresses.country'])->orderBy('name')->get();
+        return response()->json($venues);
     }
 }
