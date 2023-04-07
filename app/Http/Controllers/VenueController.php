@@ -43,8 +43,8 @@ class VenueController extends Controller
         $request->validate([
             'name' => 'required|max:50|unique:venues,name',
             'street' => 'required|string|regex:/^[a-zA-ZßÄÖÜäöü -]+$/|max:50',
-            'number' => 'required|regex:/^[\w\d\/ -]+$/',
-            'city' => 'required|max:50|regex:/^[a-zA-ZßÄÖÜäöü -]/',
+            'number' => 'required|regex:/^\d+[a-zA-Z]?(?:\/[\d\w]+)?(?:\s?[\/ -]\s?\d+[a-zA-Z]*)?$/u',
+            'city' => 'required|max:50|regex:/^[a-zA-ZßÄÖÜäöü -]+$/',
             'zip' => 'required|numeric',
             'country_id' => 'required|exists:countries,id',
             'country_code' => 'required',
@@ -149,8 +149,8 @@ class VenueController extends Controller
         $request->validate([
             'name' => 'required|max:50|unique:venues,name,' . $id,
             'street' => 'required|string|regex:/^[a-zA-ZßÄÖÜäöü -]+$/|max:50',
-            'number' => 'required|regex:/^[\w\d\/-]+$/',
-            'city' => 'required|max:50|regex:/^[a-zA-ZßÄÖÜäöü -]/',
+            'number' => 'required|regex:/^\d+[a-zA-Z]?(?:\/[\d\w]+)?(?:\s?[\/ -]\s?\d+[a-zA-Z]*)?$/u',
+            'city' => 'required|max:50|regex:/^[a-zA-ZßÄÖÜäöü -]+$/',
             'zip' => 'required|numeric',
             'country_id' => 'required|exists:countries,id',
             'country_code' => 'required',
