@@ -21,7 +21,7 @@ class Address extends Model
     public $timestamps = false;
 
      /**
-     * Relation to User Model
+     * Relation to Venue Model
      * 
      * @return
      */

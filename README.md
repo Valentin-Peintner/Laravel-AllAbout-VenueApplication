@@ -16,15 +16,29 @@ The code defines a protected property named $fillable which are the columns that
 
 For the model of each migration, I have created functions related to the foreign keys of the respective tables.
 
-## Controller
-
-There is the VenueController. This controller contains the whole functionality of the CRUD Application. Down below, you find all the information about the functions and the blades.
-
 ## Routes
 
 The first two routes are simple and only return views when their URLs are accessed. The third to eighth routes are related to the VenueController. They define routes for showing, creating, storing, editing, updating, and deleting venue data. Specifically, they define GET and POST requests for index, create, store, show, edit, and update operations, respectively. Additionally, there is a DELETE request to delete a venue.
 
 The last route defines a GET request to return a JSON response for all venues in the application.
+
+## ApiVenueController - api.php
+
+It handles API requests related to venues. The ApiVenueController class provides a simple interface for retrieving venue data through an API endpoint. 
+
+## Index function - api/venues
+
+Returns a JSON response containing a list of venues. The list is ordered by name and includes the country of each venue's address.
+
+## Show function - api/venues/{id}
+
+Returns a JSON response for a specific venue, identified by its id parameter. Before returning the response, the method validates the id parameter using Validator. If the validation fails, a JSON response containing the validation error messages and a status code of 404 is returned.
+
+If the validation succeeds, the method fetches the venue from the database, including its associated country, and returns a JSON response containing the venue data.
+
+## VenueController - web.php
+
+This controller contains the whole functionality of the CRUD Application. Down below, you find all the information about the functions and the blades.
 
 ## Index function
 
@@ -57,19 +71,19 @@ This function displays the details of a specific venue by finding the venue with
 
 This function fetches a specific venue with the given ID from the database along with its related address and country information. It also fetches all the countries from the countries table like in the create function. The fetched data is then passed to the venue.edit view for displaying the venue and related countries data in a form.
 
-## -- Update function
+## Update function
 
 Is related to the edit function. Same as the store function the update function validates the input data Via the $request parameter. Instead of creating a new Venue, the update function simply updates the venue information in the database.
 including the adress and country information and the GeoLocation. It redirects to the index.blade with an success message.
 
-## -- Destroy function
+## Destroy function
 
 This function deletes a venue and its associated addresses from the database based on the provided ID. It first finds the venue by the ID using the findOrFail() method. It then deletes the related addresses by calling the delete() method on the addresses() relationship of the venue. Finally, it deletes the venue itself and redirects the user to the index page with a success message.
 
-## -- Api function
 
-This function retrieves all the venues with their associated addresses and countries in alphabetical order and returns them in JSON format for use in an API. To have acces to the data use /api/venues in the URL.
+## App.JS initMap function
 
+This code initializes a Google Map on a web page by reading the longitude and latitude values from hidden input fields from the show.blade, creating a map object centered on those coordinates, and adding a marker to the map.
 
 
 

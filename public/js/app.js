@@ -10,11 +10,9 @@
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 // application code here:
-
 function initMap() {
   var longitude = $('#longitude').val();
   var latitude = $('#latitude').val();
-  console.log(longitude, latitude);
 
   // create map object
   var map = new google.maps.Map($('#map')[0], {

@@ -1,13 +1,11 @@
 require('./bootstrap');
 
 // application code here:
-
 function initMap() {
 
+	// Get Location from show.blade hidden input fields
 	const longitude = $('#longitude').val();
 	const latitude = $('#latitude').val();
-
-	console.log(longitude, latitude);
 	
 	// create map object
 	var map = new google.maps.Map($('#map')[0], {
@@ -19,9 +17,10 @@ function initMap() {
 	var marker = new google.maps.Marker({
 		position: {lat: parseFloat(latitude), lng: parseFloat(longitude)},
 		map: map,
-		title: 'Your Event Location'
+		title: 'Venue Location'
 	});
 }
 
+// Reference on global variable
 window.initMap = initMap;
 

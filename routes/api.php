@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ApiVenueController;
-use App\Http\Controllers\VenueController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 
 Route::group(['prefix' => '/venues', 'as' => 'venues.'], function () {
     Route::get('/', [ApiVenueController::class, 'index'])->name('index');

@@ -24,8 +24,8 @@ class CreateVenueAddressesTable extends Migration
             $table->string('latitude');
             $table->string('longitude');
             
-            $table->foreign('country_id')->on('countries')->references('id')->onDelete('restrict')->onUpdate('cascade');
-            
+            // Foreign keys
+            $table->foreign('country_id')->on('countries')->references('id')->onDelete('restrict')->onUpdate('cascade');      
             $table->foreign('venue_id')->on('venues')->references('id')->onDelete('restrict')->onUpdate('cascade');  
         });
     }

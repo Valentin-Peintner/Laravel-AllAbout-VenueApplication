@@ -34,9 +34,9 @@ class ApiVenueController extends Controller
         ];
         $messages = [
             'id' => [
-                'required' => 'The specified resource is required',
-                'numeric' => 'The specified resource is not a number',
-                'exists' => 'The specified resource does not exist'
+                'required' => 'Die angeforderte Ressource ist erforderlich',
+                'numeric' => 'Die angeforderte Ressource ist keine Zahl',
+                'exists' => 'Die angeforderte Ressource ist keine Zahl'
             ]
         ];
 
