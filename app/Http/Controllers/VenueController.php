@@ -67,8 +67,10 @@ class VenueController extends Controller
             'country' => $country->country
         ];
 
+        // URL 
         $url = "https://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode(http_build_query($addressData)) . "&key=AIzaSyC3cB7r9fDyaX40V8Kbp8XELqSlwwd6fD4";
      
+        // Open URL with curl_init & save answer in $response 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -173,6 +175,7 @@ class VenueController extends Controller
             'country' => $country->country
         ];
 
+        // Open URL with curl_init & save answer in $response 
         $url = "https://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode(http_build_query($addressData)) . "&key=AIzaSyC3cB7r9fDyaX40V8Kbp8XELqSlwwd6fD4";
      
         $ch = curl_init();

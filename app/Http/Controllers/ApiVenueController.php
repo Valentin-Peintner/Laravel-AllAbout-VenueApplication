@@ -28,6 +28,7 @@ class ApiVenueController extends Controller
      */
     public function show($id)
     {
+        // Validation 
         $data = ['id' => $id];
         $rules = [
             'id' => 'required|numeric|exists:venues,id'

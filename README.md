@@ -18,9 +18,7 @@ For the model of each migration, I have created functions related to the foreign
 
 ## Routes
 
-The first two routes are simple and only return views when their URLs are accessed. The third to eighth routes are related to the VenueController. They define routes for showing, creating, storing, editing, updating, and deleting venue data. Specifically, they define GET and POST requests for index, create, store, show, edit, and update operations, respectively. Additionally, there is a DELETE request to delete a venue.
-
-The last route defines a GET request to return a JSON response for all venues in the application.
+The first two routes are simple and only return views when their URLs are accessed. The third to nineth routes are related to the VenueController, grouped with the prefix /venues. They define routes for showing, creating, storing, editing, updating, and deleting venue data. Specifically, they define GET and POST requests for index, create, store, show, edit, and update operations, respectively. Additionally, there is a DELETE request to delete a venue.
 
 ## ApiVenueController - api.php
 
@@ -34,7 +32,7 @@ Returns a JSON response containing a list of venues. The list is ordered by name
 
 Returns a JSON response for a specific venue, identified by its id parameter. Before returning the response, the method validates the id parameter using Validator. If the validation fails, a JSON response containing the validation error messages and a status code of 404 is returned.
 
-If the validation succeeds, the method fetches the venue from the database, including its associated country, and returns a JSON response containing the venue data.
+If the validation succeeds, the method fetches the venue from the database, including its associated country and address, and returns a JSON response containing the venue data.
 
 ## VenueController - web.php
 
@@ -55,13 +53,9 @@ Blade that shows input fields for creating a venue. The $countries variable gets
 
 Is related to the create function. It validates the data which has been entered into the input fields of the create.blade. Via the $request parameter we can validate the data throw different validation options.
 
-We use the $existingVenue variable to verify whether the venue name entered in the HTTP request already exists in the database column.
-
-If yes, we get an error message.
-
 When the validation goes well a new Venue and Address are created using the input values passed through the HTTP request. The Country ID is obtained from the Country model. The Venue and Address data are saved to their database tables.
 
-The code sends a request to the Google Maps Geocoding API using a provided address, retrieves the response, extracts the latitude and longitude data from the response, and saves it to the data base collumn. Then it saves the new venue's address and redirects the user to the index page with a success message.
+The code below the validation sends a request to the Google Maps Geocoding API using a provided address, retrieves the response, extracts the latitude and longitude data from the response, and saves it to the data base collumn. Then it saves the new venue's address and redirects the user to the index page with a success message.
 
 ## Show function
 
